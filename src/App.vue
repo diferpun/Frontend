@@ -2,19 +2,6 @@
 
   <div id="app" class="app">
 
-    <div class="header">
-
-      <h1> Banco Misión TIC </h1>
-      <nav>
-        <button v-if="is_auth" v-on:click="loadHome"> Inicio </button>
-        <button v-if="is_auth" v-on:click="loadAccount"> Cuenta </button>
-        <button v-if="is_auth" v-on:click="loadTransaction"> Transacción </button>
-        <button v-if="is_auth" v-on:click="logOut"> Cerrar Sesión </button>
-        <button v-if="!is_auth" v-on:click="loadLogIn" > Iniciar Sesión </button>
-        <button v-if="!is_auth" v-on:click="loadSignUp" > Registrarse </button>
-      </nav>
-    </div>
-    
 
     <div class="main-component">
       <router-view  
@@ -24,18 +11,13 @@
       >
       </router-view>
     </div>
-    
-
-    <div class="footer">
-      <h2>Misión TIC 2022</h2>
-    </div>
-
   </div>
 
 </template>
 
 
 <script>
+import Swal from 'sweetalert2';
 export default {
   name: 'App',
 
@@ -62,13 +44,16 @@ export default {
 			localStorage.setItem("username", data.username);
 			localStorage.setItem("token_access", data.token_access);
 			localStorage.setItem("token_refresh", data.token_refresh);
-			alert("Autenticación Exitosa");
 			this.loadHome();
     },
 
     completedSignUp: function(data) {
-			alert("Registro Exitoso");
-			this.completedLogIn(data);
+      Swal.fire(
+        'Registro de Usuario',
+        'Se ha registrado satisfactoriamente!!!',
+        'success'
+      );
+			this.loadLogIn();
     },
 
     loadHome: function() {
@@ -80,12 +65,25 @@ export default {
 		},
 
     loadTransaction: function(){
-      this.$router.push({ name: "transaction" });
+      this.$router.push({ name: "bid" });
     },
 
     logOut: function () {
 			localStorage.clear();
-			alert("Sesión Cerrada");
+      
+      Swal.fire({
+      title: 'Has finalizado sesión satisfactoriamente.  Vuelve pronto!',
+      width: 350,
+      padding: '0.5em',
+      color: '#000000',
+      background: '#000000 url("https://img.freepik.com/vector-gratis/diseno-fondo-blanco-estilo-perspectiva-3d-forma-hexagonal_1017-27558.jpg?size=626&ext=jpg")',
+      backdrop: `
+        rgba(0,0,123,0.4)
+        url("https://i.pinimg.com/originals/2a/e4/dd/2ae4dde866c818d5ecee549cca05def2.gif")
+        left top
+        no-repeat
+      `
+    })
       this.loadLogIn();
 		},
   }
@@ -99,7 +97,7 @@ export default {
     margin: 0 0 0 0;
   }
 
-  .header{
+  /*.header{
     margin: 0%;
     padding: 0;
     width: 100%;
@@ -112,16 +110,17 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
+  }*/
 
   .header h1{
-    width: 20%;
+    width: 10%;
     text-align: center;
+    color: #E5E7E9;
   }
 
   .header nav {
     height: 100%;
-    width: 30%;
+    width: 100%;
 
     display: flex;
     justify-content: space-around;
@@ -132,7 +131,7 @@ export default {
 
   .header nav button{
     color: #E5E7E9;
-    background: #283747;
+    background: #000000;
     border: 1px solid #E5E7E9;
 
     border-radius: 5px;
@@ -140,7 +139,7 @@ export default {
   }
 
   .header nav button:hover{
-    color: #283747;
+    color: #000000;
     background: #E5E7E9;
     border: 1px solid #E5E7E9;
   }
@@ -155,25 +154,8 @@ export default {
   }
 
  
-  .footer{
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 10vh;
-    min-height: 100px; 
+  
 
-    background-color: #283747;
-    color: #E5E7E9;
-
-  }
-
-  .footer h2{
-    width: 100%;
-    height: 100%;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  
 
 </style>

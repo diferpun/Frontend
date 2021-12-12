@@ -5,8 +5,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core
 import LogIn from './components/LogIn.vue'
 import SignUp from './components/SignUp.vue'
 import Home from './components/Home.vue'
-import Account from './components/Account.vue'
-import Transaction from './components/Transaction.vue'
+import Auction from './components/Auction.vue'
+import Bid from './components/Bid.vue'
 
 const routes = [{
         path: '/user/logIn',
@@ -27,15 +27,15 @@ const routes = [{
         meta: { requiresAuth: true }
     },
     {
-        path: '/user/account',
-        name: "account",
-        component: Account,
+        path: '/user/auction',
+        name: "auction",
+        component: Auction,
         meta: { requiresAuth: true }
     },
     {
-        path: '/user/transaction',
-        name: "transaction",
-        component: Transaction,
+        path: '/user/bid',
+        name: "bid",
+        component: Bid,
         meta: { requiresAuth: true }
     }
 ];
@@ -46,7 +46,7 @@ const router = createRouter({
 });
 
 const apolloClient = new ApolloClient({
-    link: createHttpLink({ uri: 'https://mision-tic-api-gateway.herokuapp.com/' }),
+    link: createHttpLink({ uri: 'https://apigateway-p29.herokuapp.com/' }),
     cache: new InMemoryCache()
 })
 
@@ -58,8 +58,7 @@ async function isAuth() {
     try {
         var result = await apolloClient.mutate({
             mutation: gql `
-                mutation ($refresh: String!) {
-                    refreshToken(refresh: $refresh) {
+                    mutation($refresh: String!){refreshToken(refresh: $refresh) {
                         access
                     }
                 }
